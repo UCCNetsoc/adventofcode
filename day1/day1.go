@@ -7,11 +7,26 @@ import (
 	"strconv"
 )
 
-func day1(num string) int {
+func part1(num string) int {
 	sum := 0
-	for i, curr := range num {
-		if curr == rune(num[(i+1)%len(num)]) {
-			n, err := strconv.Atoi(string(curr))
+	for i := range num {
+		if num[i] == num[(i+1)%len(num)] {
+			n, err := strconv.Atoi(string(num[i]))
+			if err != nil {
+				panic(err)
+			}
+			sum += n
+		}
+	}
+	return sum
+}
+
+func part2(num string) int {
+	sum := 0
+	offset := len(num) / 2
+	for i := range num {
+		if num[i] == num[(i+offset)%len(num)] {
+			n, err := strconv.Atoi(string(num[i]))
 			if err != nil {
 				panic(err)
 			}
@@ -22,7 +37,7 @@ func day1(num string) int {
 }
 
 func main() {
-	f, err := os.Open(os.Args[1])
+	f, err := os.Open("d1.in")
 	if err != nil {
 		panic(err)
 	}
@@ -31,7 +46,8 @@ func main() {
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		l := scanner.Text()
-		fmt.Println(day1(l))
+		fmt.Println(part1(l))
+		fmt.Println(part2(l))
 	}
 	if err := scanner.Err(); err != nil {
 		panic(err)
