@@ -15,8 +15,8 @@ foreach ($lines as $line) {
         // For each number, look forward in the list for something that
         // it can divide into or be divided by evenly
         $next = (int) $numberList[$j];
-        if( ($number % $next) == 0 || ($next % $number) == 0){
-          $sum += ($number > $next) ? $number / $next : $next / $number;
+        if ( in_array(0, [($number % $next), ($next % $number)] ) ){
+          $sum += ($number > $next) ? ($number / $next) : ($next / $number);
           // Break out of the entire line
           break 2;
         }
