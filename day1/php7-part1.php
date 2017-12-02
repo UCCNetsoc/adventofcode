@@ -9,15 +9,12 @@ foreach ($lines as $input) {
   if ($stringlen == 0){ continue; }
 
   $sum = 0;
-  $last = -1;
-  for ($i=0; $i < $stringlen + 1; $i++) {
-    $index = ($i % $stringlen);
+  for ($i=0; $i <= $stringlen; $i++) {
+    $index = (($i + 1) % $stringlen);
     $number = (int) $input[ $index ];
-    if( $number == $last ){
+    if( $number == $input[$i] ){
       $sum += $number;
     }
-
-    $last = $number;
   }
   echo "{$sum} \n";
 }
