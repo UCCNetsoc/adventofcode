@@ -1,6 +1,6 @@
 <?php
 
-$file = file_get_contents('d2.in');
+$file = file_get_contents('solution-php.in');
 $lines = explode(PHP_EOL, $file);
 
 $sum = 0;
