@@ -12,9 +12,12 @@ foreach ($lines as $line) {
     for ($i=0; $i < count($numberList); $i++) {
       $number = (int) $numberList[$i];
       for ($j = $i + 1; $j < count($numberList); $j++) {
+        // For each number, look forward in the list for something that
+        // it can divide into or be divided by evenly
         $next = (int) $numberList[$j];
         if( ($number % $next) == 0 || ($next % $number) == 0){
           $sum += ($number > $next) ? $number / $next : $next / $number;
+          // Break out of the entire line
           break 2;
         }
       }
