@@ -12,6 +12,7 @@ func part1() {
 	if err != nil {
 		panic(err)
 	}
+	defer f.Close()
 
 	var (
 		ins []int
@@ -40,6 +41,7 @@ func part2() {
 	if err != nil {
 		panic(err)
 	}
+	defer f.Close()
 
 	var (
 		ins []int
