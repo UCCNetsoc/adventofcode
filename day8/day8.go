@@ -18,8 +18,11 @@ func main() {
 	}
 	defer f.Close()
 
-	sc := bufio.NewScanner(f)
-	registers := make(map[string]int)
+	var (
+		sc        = bufio.NewScanner(f)
+		registers = make(map[string]int)
+		maxVal    int
+	)
 	for sc.Scan() {
 		var (
 			reg  string
@@ -61,11 +64,17 @@ func main() {
 		}
 
 		if cond {
+			var newN int
 			switch op {
 			case "inc":
-				registers[reg] += n
+				newN = registers[reg] + n
 			case "dec":
-				registers[reg] -= n
+				newN = registers[reg] - n
+			}
+			registers[reg] = newN
+
+			if newN > maxVal {
+				maxVal = newN
 			}
 		}
 	}
@@ -74,11 +83,12 @@ func main() {
 		panic(err)
 	}
 
-	maxN := math.MinInt64
+	maxEndVal := math.MinInt64
 	for _, n := range registers {
-		if n > maxN {
-			maxN = n
+		if n > maxEndVal {
+			maxEndVal = n
 		}
 	}
-	fmt.Println("Part1:", maxN)
+	fmt.Println("Part1:", maxEndVal)
+	fmt.Println("Part2:", maxVal)
 }
