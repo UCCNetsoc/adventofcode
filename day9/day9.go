@@ -19,39 +19,48 @@ func main() {
 
 	for sc.Scan() {
 		var (
-			s                 = stack.New()
-			groups            int
-			skipNext, garbage bool
+			s                    = stack.New()
+			groups, garbage      int
+			cancelled, isGarbage bool
 		)
 		for _, r := range sc.Text() {
-			if skipNext {
-				skipNext = false
+			if cancelled {
+				cancelled = false
 				continue
 			}
 
 			switch r {
 			case '!':
-				skipNext = true
+				cancelled = true
 			case '<':
-				garbage = true
+				if isGarbage {
+					garbage++
+				}
+				isGarbage = true
 			case '>':
-				garbage = false
+				isGarbage = false
 			case '{':
-				if garbage {
+				if isGarbage {
+					garbage++
 					continue
 				}
 				s.Push(r)
 			case '}':
-				if garbage {
+				if isGarbage {
+					garbage++
 					continue
 				}
 				groups += s.Len()
 				if _, err := s.Pop(); err != nil {
 					panic(err)
 				}
+			default:
+				if isGarbage {
+					garbage++
+				}
 			}
 		}
-		fmt.Println(groups)
+		fmt.Println(groups, garbage)
 	}
 
 	if err := sc.Err(); err != nil {
